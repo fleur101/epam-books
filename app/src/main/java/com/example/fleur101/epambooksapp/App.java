@@ -1,6 +1,7 @@
 package com.example.fleur101.epambooksapp;
 
 import android.support.multidex.MultiDexApplication;
+import android.support.v7.app.AppCompatDelegate;
 
 import timber.log.Timber;
 
@@ -13,5 +14,7 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }
