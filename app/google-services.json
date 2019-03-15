@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "795335207766",
+    "firebase_url": "https://epam-reads.firebaseio.com",
+    "project_id": "epam-reads",
+    "storage_bucket": "epam-reads.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795335207766:android:28262e0d497408b0",
+        "android_client_info": {
+          "package_name": "com.example.fleur101.epambooksapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795335207766-vo3a990l3ceiet4s7228ccqnjindloqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fleur101.epambooksapp",
+            "certificate_hash": "3b664fe7150d3e472f616f098d515736bd7ecec2"
+          }
+        },
+        {
+          "client_id": "795335207766-uqcbk75btq0ml412sv3j3c1m2fhethuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjd51rFtosg-JmV2FRT0UA78g9JOoXmiY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795335207766-uqcbk75btq0ml412sv3j3c1m2fhethuv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
