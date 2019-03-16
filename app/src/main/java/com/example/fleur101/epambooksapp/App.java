@@ -1,8 +1,10 @@
 package com.example.fleur101.epambooksapp;
 
-import androidx.multidex.MultiDexApplication;
-import androidx.appcompat.app.AppCompatDelegate;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
 import timber.log.Timber;
 
 /**
@@ -16,5 +18,8 @@ public class App extends MultiDexApplication {
         Timber.plant(new Timber.DebugTree());
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 }
