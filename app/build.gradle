@@ -47,7 +47,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
     implementation 'com.google.firebase:firebase-firestore:18.1.0'
 
-
 }
 
 apply plugin: 'com.google.gms.google-services'
