@@ -35,7 +35,7 @@ public class Book {
         this.publish_date = publish_date;
     }
 
-    public void setTitle(String bookName) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

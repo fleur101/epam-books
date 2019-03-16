@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,13 +17,16 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:contentDescription="@string/book_image"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
 
         <RelativeLayout
             android:id="@+id/rl_book_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/image_book"
+            android:layout_marginTop="20dp"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
 
@@ -30,7 +34,8 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
                 tools:text="The Google Story" />
 
             <TextView
@@ -38,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
+                android:textSize="14sp"
                 tools:text="David A. Wise, Mark Malseed" />
 
             <TextView
@@ -45,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_author"
+                android:textSize="12sp"
                 tools:text="Random House Digital, Inc." />
 
             <TextView
@@ -64,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_book_info"
             android:layout_toStartOf="@+id/iv_info_icon"
+            android:layout_margin="5dp"
             android:contentDescription="@string/request_book"
             app:srcCompat="@drawable/ic_request_book_24px" />
 
@@ -74,6 +82,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/rl_book_info"
+            android:layout_margin="5dp"
             android:contentDescription="@string/book_info"
             app:srcCompat="@drawable/ic_info_24px_outlined" />
 

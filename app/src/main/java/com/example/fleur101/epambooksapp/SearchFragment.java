@@ -49,7 +49,7 @@ public class SearchFragment extends BaseFragment {
         mDataset = new ArrayList<Book>();
 
         // using Linear Layout Manager
-        mAdapter = new BooksAdapter(mDataset);
+        mAdapter = new BooksAdapter(mDataset, getContext());
         recyclerView.setAdapter(mAdapter);
 
         getData();
@@ -60,7 +60,7 @@ public class SearchFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        getData();
+//        getData();
     }
 
     public void getData(){

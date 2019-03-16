@@ -1,5 +1,7 @@
 package com.example.fleur101.epambooksapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -22,10 +28,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
 
     private static final String TAG = "BOOKS_ADAPTER_TAG";
     private List<Book> mDataset;
+    private Context mContext;
 
 
-    BooksAdapter(List<Book> dataset) {
+    BooksAdapter(List<Book> dataset, Context context) {
         mDataset = dataset;
+        mContext = context;
     }
 
     @NonNull
@@ -42,14 +50,30 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
         Book book = mDataset.get(position);
         List<String> authors = book.getAuthors();
         String authorNames = "";
-        holder.titleTextView.setText(book.getTitle());
         for (int i=0; i<authors.size(); i++){
             authorNames = authorNames.concat(authors.get(i));
             authorNames+=", ";
         }
+
+        Date date = book.getPublish_date().toDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        String dateString = day+"."+month+"."+year;
+
+        String imageURL = book.getImgURL();
+
+        Glide.with(mContext)
+                .load(imageURL)
+                .into(holder.bookImageView);
+        Log.d(TAG, "onBindViewHolder: "+book.getTitle());
+        holder.titleTextView.setText(book.getTitle());
         holder.authorTextView.setText(authorNames);
         holder.publisher.setText(book.getPublisher());
-        holder.publishDate.setText(book.getPublish_date().toString());
+        holder.publishDate.setText(dateString);
+
         Log.d(TAG, "onBindViewHolder: 2");
     }
 
