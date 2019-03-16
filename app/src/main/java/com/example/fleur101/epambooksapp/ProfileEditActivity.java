@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_EMAIL_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_FIRST_NAME_KEY;
@@ -51,7 +55,7 @@ public class ProfileEditActivity extends Activity {
         edtEmail.setText(intent.getStringExtra(PROFILE_EMAIL_KEY));
         edtPhone.setText(intent.getStringExtra(PROFILE_PHONE_KEY));
 
-        btnCancel.setOnClickListener(view -> onBackPressed());
+        btnCancel.setOnClickListener(view -> signOut());
         btnConfirm.setOnClickListener(view -> populateDataToDatabase(false));
     }
 
@@ -59,7 +63,23 @@ public class ProfileEditActivity extends Activity {
         if (update) {
 
         } else {
-
+            //Creating new user
         }
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.id_token))
+                .requestEmail()
+                .build();
+        GoogleSignIn.getClient(this, gso).signOut().addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                onBackPressed();
+                Timber.e("Success");
+            } else {
+                Timber.e("Fail");
+            }
+        });
     }
 }

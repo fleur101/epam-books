@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment1 = new SettingsFragment();
                             break;
                         case R.id.nav_logout:
-                            FirebaseAuth.getInstance().signOut();
-                            startActivity(new Intent(this, LoginActivity.class));
+                            signOut();
                             finish();
                             break;
                     }
@@ -110,6 +112,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.id_token))
+                .requestEmail()
+                .build();
+        GoogleSignIn.getClient(this, gso).signOut().addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                Timber.e("Success");
+            } else {
+                Timber.e("Fail");
+            }
+        });
     }
 
 
