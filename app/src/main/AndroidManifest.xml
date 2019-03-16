@@ -53,6 +53,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ProfileEditActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

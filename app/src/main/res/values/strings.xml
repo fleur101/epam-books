@@ -18,5 +18,9 @@
     <string name="call_owner">Call Owner</string>
     <string name="leech_rating">Рейтинг заёмщика:</string>
     <string name="seed_rating">Рейтинг занимателя:</string>
-    <string name="facebook_app_id">828647267487031</string> <string name="fb_login_protocol_scheme">fb828647267487031</string>
+    <string name="facebook_app_id">828647267487031</string>
+    <string name="fb_login_protocol_scheme">fb828647267487031</string>
+    <string name="id_token">795335207766-uqcbk75btq0ml412sv3j3c1m2fhethuv.apps.googleusercontent.com</string>
+    <string name="google_login_error">Возникла ошибка при входе с помощью Google аккаунта</string>
+
 </resources>
