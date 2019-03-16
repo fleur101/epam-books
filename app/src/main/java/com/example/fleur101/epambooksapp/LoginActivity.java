@@ -30,7 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import org.json.JSONException;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -38,13 +37,14 @@ import timber.log.Timber;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_EMAIL_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_FIRST_NAME_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_LAST_NAME_KEY;
+import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_NEW_USER_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_PHONE_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_UID_KEY;
 
 /**
  * Created by Assylkhanov Aslan on 15.03.2019.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private static final int RC_GOOGLE_SIGN_IN = 42;
 
@@ -159,14 +159,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        showLoader(true);
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         checkIfUserExists(user.getUid(), acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), null);
                     } else {
+                        showLoader(false);
                         Snackbar.make(btnFacebook, R.string.google_login_error, Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -186,16 +187,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfUserExists(String uid, String firstName, String lastName, String email, String phone) {
-        Timber.e("checkIfUserExists");
         FirebaseFirestore.getInstance().collection("users")
                 .whereEqualTo("uid", uid)
                 .get()
                 .addOnCompleteListener(task -> {
+                    showLoader(false);
                     if (task.isSuccessful()) {
                         Timber.e("Successful");
                         if (task.getResult().getDocuments().isEmpty()) {
                             Timber.e("Doesn't exist");
                             Intent intent = new Intent(this, ProfileEditActivity.class);
+                            intent.putExtra(PROFILE_NEW_USER_KEY, true);
                             intent.putExtra(PROFILE_UID_KEY, uid);
                             intent.putExtra(PROFILE_FIRST_NAME_KEY, firstName);
                             intent.putExtra(PROFILE_LAST_NAME_KEY, lastName);
