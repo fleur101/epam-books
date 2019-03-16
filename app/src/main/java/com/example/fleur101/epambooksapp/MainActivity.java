@@ -1,15 +1,22 @@
 package com.example.fleur101.epambooksapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.firebase.auth.FirebaseAuth;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,14 +64,18 @@ public class MainActivity extends AppCompatActivity {
                             fragment1 = new MyRequestsFragment();
                             break;
                         case R.id.nav_settings:
-                            fragment1 = new SettingsFragment();
+                            fragment1 = new ProfileFragment();
                             break;
                         case R.id.nav_logout:
+                            signOut();
+                            finish();
                             break;
                     }
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment1).commit();
+                    if (fragment1 != null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment1).commit();
+                    }
                     return true;
                 });
 
@@ -101,6 +112,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.id_token))
+                .requestEmail()
+                .build();
+        GoogleSignIn.getClient(this, gso).signOut().addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                Timber.e("Success");
+            } else {
+                Timber.e("Fail");
+            }
+        });
     }
 
 

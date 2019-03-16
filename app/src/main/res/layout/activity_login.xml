@@ -27,18 +27,32 @@
                     android:layout_marginBottom="36dp"
                     app:srcCompat="@drawable/ic_logo_dark_text" />
 
-                <Button
-                    android:id="@+id/btn_facebook"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_facebook"
-                    android:drawableStart="@drawable/ic_facebook_logo"
-                    android:text="@string/sign_in_facebook"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorFacebook"
-                    android:drawableTint="@color/colorFacebook"
-                    android:paddingStart="16dp" />
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_facebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_facebook"
+                        android:drawableStart="@drawable/ic_facebook_logo"
+                        android:drawableTint="@color/colorFacebook"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingStart="16dp"
+                        android:text="@string/sign_in_facebook"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorFacebook" />
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/btn_facebook_original"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/btn_google"
@@ -47,10 +61,11 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_google"
                     android:drawableStart="@drawable/ic_google_logo"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingStart="16dp"
                     android:text="@string/sign_in_google"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorGoogle"
-                    android:paddingStart="16dp" />
+                    android:textColor="@color/colorGoogle" />
 
             </LinearLayout>
 

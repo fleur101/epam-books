@@ -6,4 +6,9 @@
     <color name="colorAccent">#00abcd</color>
     <color name="colorFacebook">#2553B4</color>
     <color name="colorGoogle">#7D7D7D</color>
+    <color name="textDarker">#DE000000</color>
+    <color name="text">#88000000</color>
+    <color name="divider">#22000000</color>
+    <color name="colorProfileText">#AAAAAA</color>
+    <color name="white">#FFFFFF</color>
 </resources>
