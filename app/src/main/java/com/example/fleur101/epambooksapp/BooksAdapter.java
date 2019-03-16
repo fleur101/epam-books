@@ -44,7 +44,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
         String authorNames = "";
         holder.titleTextView.setText(book.getTitle());
         for (int i=0; i<authors.size(); i++){
-            authorNames+=authors.get(i);
+            authorNames = authorNames.concat(authors.get(i));
             authorNames+=", ";
         }
         holder.authorTextView.setText(authorNames);

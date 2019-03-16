@@ -46,11 +46,11 @@ public class SearchFragment extends BaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mDataset = new ArrayList<>();
+        mDataset = new ArrayList<Book>();
 
         // using Linear Layout Manager
-        mAdapter = new BooksAdapter(mDataset);
-        recyclerView.setAdapter(mAdapter);
+//        mAdapter = new BooksAdapter(mDataset);
+//        recyclerView.setAdapter(mAdapter);
 
 //        getData();
         return view;
@@ -60,7 +60,7 @@ public class SearchFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        getData();
+//        getData();
     }
 
     public void getData(){
