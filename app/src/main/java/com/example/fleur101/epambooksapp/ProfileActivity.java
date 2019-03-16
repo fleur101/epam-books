@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Assylkhanov Aslan on 16.03.2019.
  */
-public class ProfileEditActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity {
 
     //region View Bindings
     @BindView(R.id.toolbar)
