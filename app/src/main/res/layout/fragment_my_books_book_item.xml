@@ -113,7 +113,7 @@
                 android:textSize="14sp"
                 android:gravity="center_vertical"
                 android:textColor="@color/text"
-                tools:text="Аслан Ассылханов" />
+                tools:text="1 запрос" />
 
             <ImageView
                 android:id="@+id/iv_more_icon"
