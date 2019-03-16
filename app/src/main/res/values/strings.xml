@@ -33,4 +33,11 @@
     <string name="error_occurred_try_again">Произошла ошибка. Попробуйте ещё раз</string>
     <string name="loading_message">Аккуратно пролистываем страницы</string>
     <string name="you_signed_as">Вы вошли как\n%s</string>
+    <string name="looking_books">Ищем по полкам</string>
+    <string name="adding_book">Добавление книги</string>
+    <string name="name">Имя</string>
+    <string name="author">Автор</string>
+    <string name="publisher">Издатель</string>
+    <string name="publish_date">Дата издания</string>
+    <string name="description">Описание</string>
 </resources>

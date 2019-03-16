@@ -42,4 +42,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="AddBookTextTheme">
+        <item name="colorControlNormal">@color/text</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorHint">@color/colorProfileText</item>
+    </style>
+
+    <style name="AddBookEditText">
+        <item name="android:theme">@style/AddBookTextTheme</item>
+        <item name="android:textColor">@color/textDarker</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

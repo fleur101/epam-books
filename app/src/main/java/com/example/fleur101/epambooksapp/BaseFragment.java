@@ -16,6 +16,7 @@ public class BaseFragment extends Fragment {
     protected ProgressDialog dialog;
     private boolean isAttached;
     private boolean isOnPause;
+    private String loaderText;
 
     public static BaseFragment newInstance(@Nullable Bundle args) {
 
@@ -64,6 +65,9 @@ public class BaseFragment extends Fragment {
         isAttached = false;
     }
 
+    protected void setLoaderText(String text) {
+        loaderText = text;
+    }
 
 
     /**
@@ -75,7 +79,7 @@ public class BaseFragment extends Fragment {
         if (isAttached) {
             if (show) {
                 dialog = ProgressDialog
-                        .show(getActivity(), null, getString(R.string.loading_message), true);
+                        .show(getActivity(), null, loaderText != null ? loaderText : getString(R.string.loading_message), true);
             } else if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
                 dialog = null;
