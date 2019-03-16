@@ -5,7 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+
 public class MyBooksFragment extends BaseFragment {
+
+    public static final String TAG = "MY_BOOKS_FRAGMENT_TAG";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,7 @@ public class MyBooksFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_books, container, false);
+        return inflater.inflate(R.layout.fragment_my_books, container, false;
     }
 
 }
