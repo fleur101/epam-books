@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = new SearchFragment();
 
-//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
