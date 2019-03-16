@@ -41,7 +41,6 @@ import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_IMAGE_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_LAST_NAME_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_NEW_USER_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_PHONE_KEY;
-import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_UID_KEY;
 
 /**
  * Created by Assylkhanov Aslan on 15.03.2019.
@@ -198,14 +197,13 @@ public class LoginActivity extends BaseActivity {
                         Timber.e("Successful");
                         if (task.getResult().getDocuments().isEmpty()) {
                             Timber.e("Doesn't exist");
-                            Intent intent = new Intent(this, ProfileEditActivity.class);
+                            Intent intent = new Intent(this, ProfileActivity.class);
                             intent.putExtra(PROFILE_NEW_USER_KEY, true);
-                            intent.putExtra(PROFILE_UID_KEY, uid);
                             intent.putExtra(PROFILE_FIRST_NAME_KEY, firstName);
                             intent.putExtra(PROFILE_LAST_NAME_KEY, lastName);
                             intent.putExtra(PROFILE_EMAIL_KEY, email);
                             intent.putExtra(PROFILE_PHONE_KEY, phone);
-                            intent.putExtra(PROFILE_IMAGE_KEY, photoUrl);
+                            intent.putExtra(PROFILE_IMAGE_KEY, photoUrl.toString());
                             startActivity(intent);
                         } else {
                             Timber.e("Open the main");

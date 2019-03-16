@@ -24,7 +24,6 @@
 
     <style name="ProfileEditTextTheme">
         <item name="colorControlNormal">@color/colorProfileText</item>
-        <item name="colorControlActivated">@color/colorProfileText</item>
         <item name="android:textColorPrimary">@color/colorProfileText</item>
         <item name="android:textColorHint">@color/colorProfileText</item>
     </style>

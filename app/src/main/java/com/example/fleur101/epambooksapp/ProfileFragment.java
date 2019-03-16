@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.fleur101.epambooksapp.models.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -28,6 +29,7 @@ import timber.log.Timber;
 
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_EMAIL_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_FIRST_NAME_KEY;
+import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_IMAGE_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_LAST_NAME_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_NEW_USER_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_PHONE_KEY;
@@ -59,6 +61,7 @@ public class ProfileFragment extends BaseFragment {
     private String uid;
     private boolean newUser;
     private DocumentReference userRef;
+    private String profileImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,14 +73,18 @@ public class ProfileFragment extends BaseFragment {
         uid = FirebaseAuth.getInstance().getUid();
         ivProfile.setImageResource(R.color.colorGoogle);
 
-        prePopulateData();
+        Intent intent = getActivity().getIntent();
+        newUser = intent.getBooleanExtra(PROFILE_NEW_USER_KEY, false);
+
         userRef = FirebaseFirestore.getInstance().document("users/" + uid);
         if (!newUser) {
             getProfileData();
         } else {
+            FirebaseAuth.getInstance().signOut();
+            prePopulateData();
         }
 
-        btnCancel.setOnClickListener(v -> signOut());
+        btnCancel.setOnClickListener(v -> getActivity().onBackPressed());
         btnConfirm.setOnClickListener(v -> populateDataToDatabase(newUser));
 
         return view;
@@ -91,11 +98,17 @@ public class ProfileFragment extends BaseFragment {
             showLoader(false);
             if (task.isSuccessful()) {
                 Profile profile = task.getResult().toObject(Profile.class);
-                edtEmail.setText(profile.getEmail());
-                edtFirstName.setText(profile.getFirstname());
-                edtLastName.setText(profile.getLastname());
-                edtPhone.setText(profile.getPhone());
-                tvSignInfo.setText(getString(R.string.you_signed_as, edtEmail.getText().toString()));
+                if (profile != null) {
+                    edtEmail.setText(profile.getEmail());
+                    edtFirstName.setText(profile.getFirstname());
+                    edtLastName.setText(profile.getLastname());
+                    edtPhone.setText(profile.getPhone());
+                    tvSignInfo.setText(getString(R.string.you_signed_as, edtEmail.getText().toString()));
+                    Glide.with(getContext())
+                            .load(profile.getPhotoUrl())
+                            .placeholder(R.color.colorGoogle)
+                            .into(ivProfile);
+                }
             } else {
                 Toast.makeText(getActivity(), R.string.error_occurred_try_again, Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
@@ -111,7 +124,14 @@ public class ProfileFragment extends BaseFragment {
         edtLastName.setText(intent.getStringExtra(PROFILE_LAST_NAME_KEY));
         edtEmail.setText(intent.getStringExtra(PROFILE_EMAIL_KEY));
         edtPhone.setText(intent.getStringExtra(PROFILE_PHONE_KEY));
+        profileImage = intent.getStringExtra(PROFILE_IMAGE_KEY);
+        Timber.e("Profile Image = %s", profileImage);
         tvSignInfo.setText(getString(R.string.you_signed_as, edtEmail.getText().toString()));
+
+        Glide.with(getContext())
+                .load(intent.getStringExtra(PROFILE_IMAGE_KEY))
+                .placeholder(R.color.colorGoogle)
+                .into(ivProfile);
     }
 
     private void populateDataToDatabase(boolean newUser) {
@@ -122,6 +142,7 @@ public class ProfileFragment extends BaseFragment {
         user.put("email", edtEmail.getText().toString());
         user.put("phone", edtPhone.getText().toString());
         user.put("uid", uid);
+        user.put("photoUrl", profileImage);
 
         if (!newUser) {
             userRef.update(user).addOnCompleteListener(onUploadListener);
@@ -149,7 +170,6 @@ public class ProfileFragment extends BaseFragment {
                 .build();
         GoogleSignIn.getClient(getActivity(), gso).signOut().addOnCompleteListener(getActivity(), task -> {
             if (task.isSuccessful()) {
-                getActivity().onBackPressed();
                 Timber.e("Success");
             } else {
                 Timber.e("Fail");
