@@ -18,4 +18,5 @@
     <string name="call_owner">Call Owner</string>
     <string name="leech_rating">Рейтинг заёмщика:</string>
     <string name="seed_rating">Рейтинг занимателя:</string>
+    <string name="facebook_app_id">828647267487031</string> <string name="fb_login_protocol_scheme">fb828647267487031</string>
 </resources>
