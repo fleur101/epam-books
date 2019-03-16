@@ -16,4 +16,6 @@
     <string name="request_book">Request Book</string>
     <string name="retrieve_book">Retrieve Book</string>
     <string name="call_owner">Call Owner</string>
+    <string name="leech_rating">Рейтинг заёмщика:</string>
+    <string name="seed_rating">Рейтинг занимателя:</string>
 </resources>
