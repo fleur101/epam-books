@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_book_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="5dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/textDarker"
+                android:layout_marginBottom="4dp"
+                tools:text="The Google Story" />
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:textSize="14sp"
+                android:textColor="@color/text"
+                tools:text="David A. Wise, Mark Malseed" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/list_item_divider"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_below="@id/rl_book_info"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/tv_request_text"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_below="@id/rl_book_info"
+            android:layout_margin="8dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/text"
+            tools:text="От: Аслан Ассылханов" />
+
+        <ImageView
+            android:id="@+id/iv_request_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/rl_book_info"
+            android:layout_toStartOf="@+id/iv_info_icon"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/retrieve_book"
+            app:srcCompat="@drawable/ic_check_24px" />
+
+        <ImageView
+            android:id="@+id/iv_info_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:layout_below="@id/rl_book_info"
+            android:contentDescription="@string/call_owner"
+            app:srcCompat="@drawable/ic_phone_24dp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
