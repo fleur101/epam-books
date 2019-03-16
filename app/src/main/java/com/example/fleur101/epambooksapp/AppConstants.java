@@ -13,4 +13,5 @@ public class AppConstants {
     public static final String PROFILE_LAST_NAME_KEY = "key_last_name_profile";
     public static final String PROFILE_EMAIL_KEY = "key_email_profile";
     public static final String PROFILE_PHONE_KEY = "key_phone_profile";
+    public static final String PROFILE_IMAGE_KEY = "key_image_profile";
 }

@@ -1,6 +1,7 @@
 package com.example.fleur101.epambooksapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import timber.log.Timber;
 
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_EMAIL_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_FIRST_NAME_KEY;
+import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_IMAGE_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_LAST_NAME_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_NEW_USER_KEY;
 import static com.example.fleur101.epambooksapp.AppConstants.PROFILE_PHONE_KEY;
@@ -165,7 +167,7 @@ public class LoginActivity extends BaseActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        checkIfUserExists(user.getUid(), acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), null);
+                        checkIfUserExists(user.getUid(), acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), null, acct.getPhotoUrl()   );
                     } else {
                         showLoader(false);
                         Snackbar.make(btnFacebook, R.string.google_login_error, Snackbar.LENGTH_LONG).show();
@@ -179,14 +181,14 @@ public class LoginActivity extends BaseActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        checkIfUserExists(user.getUid(), null, null, null, null);
+                        checkIfUserExists(user.getUid(), null, null, null, null, null);
                     } else {
                         Snackbar.make(btnFacebook, R.string.google_login_error, Snackbar.LENGTH_LONG).show();
                     }
                 });
     }
 
-    private void checkIfUserExists(String uid, String firstName, String lastName, String email, String phone) {
+    private void checkIfUserExists(String uid, String firstName, String lastName, String email, String phone, Uri photoUrl) {
         FirebaseFirestore.getInstance().collection("users")
                 .whereEqualTo("uid", uid)
                 .get()
@@ -203,6 +205,7 @@ public class LoginActivity extends BaseActivity {
                             intent.putExtra(PROFILE_LAST_NAME_KEY, lastName);
                             intent.putExtra(PROFILE_EMAIL_KEY, email);
                             intent.putExtra(PROFILE_PHONE_KEY, phone);
+                            intent.putExtra(PROFILE_IMAGE_KEY, photoUrl);
                             startActivity(intent);
                         } else {
                             Timber.e("Open the main");

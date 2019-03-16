@@ -1,14 +1,21 @@
 package com.example.fleur101.epambooksapp;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.widget.Toast;
 
 /**
  * Created by Assylkhanov Aslan on 16.03.2019.
  */
 public class BaseFragment extends Fragment {
+
+    protected ProgressDialog dialog;
+    private boolean isAttached;
+    private boolean isOnPause;
 
     public static BaseFragment newInstance(@Nullable Bundle args) {
 
@@ -43,6 +50,37 @@ public class BaseFragment extends Fragment {
      */
     public String getTagForStack() {
         return this.getClass().getCanonicalName();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        isAttached = true;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        isAttached = false;
+    }
+
+
+
+    /**
+     * Displays / Hides progress dialog.
+     *
+     * @param show Show dialog if true, hides it if false.
+     */
+    public void showLoader(boolean show) {
+        if (isAttached) {
+            if (show) {
+                dialog = ProgressDialog
+                        .show(getActivity(), null, getString(R.string.loading_message), true);
+            } else if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+                dialog = null;
+            }
+        }
     }
 
 }

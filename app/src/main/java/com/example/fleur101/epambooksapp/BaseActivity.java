@@ -19,7 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showLoader(boolean show) {
         if (show) {
             dialog = ProgressDialog
-                    .show(this, null, getString(R.string.searching_through_your_books), true);
+                    .show(this, null, getString(R.string.loading_message), true);
         } else if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
             dialog = null;

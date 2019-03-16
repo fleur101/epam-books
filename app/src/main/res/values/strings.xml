@@ -31,6 +31,6 @@
     <string name="confirm">Подтвердить</string>
     <string name="registration">Регистрация</string>
     <string name="error_occurred_try_again">Произошла ошибка. Попробуйте ещё раз</string>
-    <string name="searching_through_your_books">Роемся в ваших закладках</string>
+    <string name="loading_message">Аккуратно пролистываем страницы</string>
     <string name="you_signed_as">Вы вошли как\n%s</string>
 </resources>

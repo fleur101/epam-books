@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment1 = new MyRequestsFragment();
                             break;
                         case R.id.nav_settings:
-                            fragment1 = new SettingsFragment();
+                            fragment1 = new ProfileFragment();
                             break;
                         case R.id.nav_logout:
                             signOut();
