@@ -1,4 +1,4 @@
-package com.example.fleur101.epambooksapp;
+package com.example.fleur101.epambooksapp.Barcode;
 
 import android.content.Context;
 import android.graphics.ImageFormat;

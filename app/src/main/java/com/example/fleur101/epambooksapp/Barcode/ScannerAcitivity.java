@@ -1,4 +1,4 @@
-package com.example.fleur101.epambooksapp;
+package com.example.fleur101.epambooksapp.Barcode;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,11 +7,11 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.example.fleur101.epambooksapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -34,7 +34,6 @@ public class ScannerAcitivity extends AppCompatActivity {
 
     private Camera mCamera;
     private CameraView camView;
-    private OverlayView overlay;
     private double overlayScale = -1;
 
     private interface OnBarcodeListener {
@@ -60,8 +59,6 @@ public class ScannerAcitivity extends AppCompatActivity {
 
         // Set-up preview screen
         if(mCamera != null) {
-            // Create overlay view
-            overlay = new OverlayView(this);
 
             // Create barcode processor for ISBN
             CustomPreviewCallback camCallback = new CustomPreviewCallback(CameraView.PREVIEW_WIDTH, CameraView.PREVIEW_HEIGHT);
@@ -82,7 +79,6 @@ public class ScannerAcitivity extends AppCompatActivity {
             // Add view to UI
             FrameLayout preview = findViewById(R.id.camera_preview);
             preview.addView(camView);
-            preview.addView(overlay);
         }
     }
 
@@ -119,16 +115,6 @@ public class ScannerAcitivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return c;
-    }
-
-    /** Calculate overlay scale factor */
-    private Rect fitOverlayRect(Rect r) {
-        if(overlayScale <= 0) {
-            Camera.Size prevSize = camView.getPreviewSize();
-            overlayScale = (double) overlay.getWidth()/(double)prevSize.height;
-        }
-
-        return new Rect((int)(r.left*overlayScale), (int)(r.top*overlayScale), (int)(r.right*overlayScale), (int)(r.bottom*overlayScale));
     }
 
     /** Post-processor for preview image streams */
