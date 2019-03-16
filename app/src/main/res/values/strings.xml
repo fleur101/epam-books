@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">epambooksApp</string>
+    <string name="app_name">EPAM reads</string>
     <string name="search">Search</string>
     <string name="my_books">My books</string>
     <string name="my_requests">My requests</string>

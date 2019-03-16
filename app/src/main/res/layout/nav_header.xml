@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="?attr/colorPrimaryDark"
     android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:orientation="vertical"
-    android:gravity="bottom">
+    android:background="@color/colorPrimaryDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/user_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/user_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_above="@+id/user_name"
         android:contentDescription="@string/user_icon"
-        android:src="@drawable/ic_account_circle_black_24dp"
-        android:layout_gravity="center"
-        />
+        android:src="@drawable/ic_account_circle_24dp"
+        android:layout_gravity="center" />
+
     <TextView
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        />
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-</LinearLayout>
+</RelativeLayout>
