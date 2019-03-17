@@ -6,14 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fleur101.epambooksapp.models.BookInstance;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MyBooksFragment extends BaseFragment {
 
@@ -25,6 +30,7 @@ public class MyBooksFragment extends BaseFragment {
     //endregion
 
     private String uid;
+    private MyBooksAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,25 +45,42 @@ public class MyBooksFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_books, container, false);
         ButterKnife.bind(this, view);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvMyBooks.setLayoutManager(layoutManager);
+        adapter = new MyBooksAdapter();
+        rvMyBooks.setAdapter(adapter);
+
         getData();
         btnAdd.setOnClickListener(view1 -> startActivity(new Intent(getContext(), AddBookActivity.class)));
         return view;
+        // Inflate the layout for this fragment
+//        View view =inflater.inflate(R.layout.fragment_my_books, container, false);
+//        FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
+//        floatingActionButton.setOnClickListener(view1 -> startActivityForResult(new Intent(getContext(), ScannerAcitivity.class), 1));
+//        return view;
     }
 
     private void getData() {
         showLoader(true);
         FirebaseFirestore.getInstance().collection("book_instances")
                 .whereEqualTo("owner", "users/" + uid)
-                .get()
-                .addOnCompleteListener(task -> {
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     showLoader(false);
-                    if (task.isSuccessful()) {
-                        Timber.e("books size = %d", task.getResult().getDocuments().size());
-                    } else {
-                        Timber.e("Fail");
+                    List<BookInstance> books = new ArrayList<>();
+                    for (DocumentSnapshot book : queryDocumentSnapshots.getDocuments()) {
+                        books.add(book.toObject(BookInstance.class));
                     }
+                    adapter.setData(books);
 
                 });
+
+
     }
+
+
+//    public void setText(String text){
+//        TextView t = (TextView)getView().findViewById(R.id.result_text);
+//        t.setText(text);
+//    }
 
 }

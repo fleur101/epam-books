@@ -49,7 +49,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
         }
         holder.authorTextView.setText(authorNames);
         holder.publisher.setText(book.getPublisher());
-        holder.publishDate.setText(book.getPublish_date().toString());
+        if (book.getPublish_date() != null) {
+            holder.publishDate.setText(book.getPublish_date().toString());
+        }
         Log.d(TAG, "onBindViewHolder: 2");
     }
 

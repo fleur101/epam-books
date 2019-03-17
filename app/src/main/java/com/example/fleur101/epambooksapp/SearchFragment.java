@@ -5,6 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.fleur101.epambooksapp.ApiModel.ApiModel;
+
+import java.io.IOException;
+
+import okhttp3.internal.Util;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.fleur101.epambooksapp.Utils.GOOGLE_BOOKS_API_KEY;
 import android.widget.ImageView;
 
 import com.google.android.material.textfield.TextInputEditText;
