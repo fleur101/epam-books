@@ -40,6 +40,8 @@
                 android:textSize="18sp"
                 android:textColor="@color/textDarker"
                 android:layout_marginBottom="4dp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 tools:text="The Google Story" />
 
             <TextView
@@ -47,8 +49,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
+                android:layout_above="@id/tv_publisher"
                 android:textSize="14sp"
                 android:textColor="@color/text"
+                android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="David A. Wise, Mark Malseed" />
 
             <TextView

@@ -5,18 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.example.fleur101.epambooksapp.ApiModel.ApiModel;
-
-import java.io.IOException;
-
-import okhttp3.internal.Util;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.example.fleur101.epambooksapp.Utils.GOOGLE_BOOKS_API_KEY;
 import android.widget.ImageView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 public class SearchFragment extends BaseFragment {
@@ -91,6 +80,13 @@ public class SearchFragment extends BaseFragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Book book = document.toObject(Book.class);
 //                            mDataset.add(book);
+                            Timber.e("Doc = %s", document.getData());
+                            Timber.e("Title is = %s", document.get("title").toString());
+                            book.setTitle(document.get("title").toString());
+                            if (document.get("imgUrl") != null) {
+                                book.setImgURL(document.get("imgUrl").toString());
+                            }
+                            Timber.e("Title set to = %s", book.getTitle());
                             data.add(book);
                             Log.d(TAG, document.getId() + " => " + document.getData());
                         }

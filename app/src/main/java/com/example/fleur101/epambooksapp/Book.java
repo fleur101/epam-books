@@ -2,8 +2,6 @@ package com.example.fleur101.epambooksapp;
 
 import com.google.firebase.Timestamp;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,7 +34,7 @@ public class Book {
     }
 
     public void setTitle(String bookName) {
-        this.title = title;
+        this.title = bookName;
     }
 
     public void setAuthors(List<String> authors) {
