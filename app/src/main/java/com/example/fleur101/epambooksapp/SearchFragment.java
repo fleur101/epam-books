@@ -46,23 +46,6 @@ public class SearchFragment extends BaseFragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
-//        App.getBooksApi().getData("isbn:" + "9780071636087", GOOGLE_BOOKS_API_KEY).enqueue(
-//                new Callback<ApiModel>() {
-//                    @Override
-//                    public void onResponse(Call<ApiModel> call, Response<ApiModel> response) {
-//                        if (response.body() != null) {
-//                            setText(response.body().getItems().get(0).getVolumeInfo().getTitle());
-//                        } else {
-//                            setText("No data");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ApiModel> call, Throwable t) {
-//                        setText("failed");
-//                    }
-//                }
-//        );
     }
 
     @Override

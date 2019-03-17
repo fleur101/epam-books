@@ -74,23 +74,7 @@ public class MyBooksFragment extends BaseFragment {
                 });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
-
-            if (resultCode == RESULT_OK) {
-                String barcode = data.getStringExtra("barcode");
-//                setText(barcode);
-                //your code
-
-            }
-            if (resultCode == RESULT_CANCELED) {
-                // Write your code if there's no result
-                Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
 //    public void setText(String text){
 //        TextView t = (TextView)getView().findViewById(R.id.result_text);
