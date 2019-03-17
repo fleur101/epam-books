@@ -5,23 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.fleur101.epambooksapp.Barcode.ScannerAcitivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
+import com.example.fleur101.epambooksapp.models.BookInstance;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MyBooksFragment extends BaseFragment {
 
@@ -33,13 +30,13 @@ public class MyBooksFragment extends BaseFragment {
     //endregion
 
     private String uid;
+    private MyBooksAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         uid = FirebaseAuth.getInstance().getUid();
         setLoaderText(getString(R.string.looking_books));
-
     }
 
     @Override
@@ -47,6 +44,11 @@ public class MyBooksFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_books, container, false);
         ButterKnife.bind(this, view);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvMyBooks.setLayoutManager(layoutManager);
+        adapter = new MyBooksAdapter();
+        rvMyBooks.setAdapter(adapter);
 
         getData();
         btnAdd.setOnClickListener(view1 -> startActivity(new Intent(getContext(), AddBookActivity.class)));
@@ -62,18 +64,18 @@ public class MyBooksFragment extends BaseFragment {
         showLoader(true);
         FirebaseFirestore.getInstance().collection("book_instances")
                 .whereEqualTo("owner", "users/" + uid)
-                .get()
-                .addOnCompleteListener(task -> {
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     showLoader(false);
-                    if (task.isSuccessful()) {
-                        Timber.e("books size = %d", task.getResult().getDocuments().size());
-                    } else {
-                        Timber.e("Fail");
+                    List<BookInstance> books = new ArrayList<>();
+                    for (DocumentSnapshot book : queryDocumentSnapshots.getDocuments()) {
+                        books.add(book.toObject(BookInstance.class));
                     }
+                    adapter.setData(books);
 
                 });
-    }
 
+
+    }
 
 
 //    public void setText(String text){

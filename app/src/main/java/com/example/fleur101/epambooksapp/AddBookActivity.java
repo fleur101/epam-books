@@ -138,23 +138,28 @@ public class AddBookActivity extends BaseActivity {
                 String barcode = data.getStringExtra("barcode");
                 edtIsbn.setText(barcode);
 
-                App.getBooksApi().getData("isbn:" + "9780071636087", GOOGLE_BOOKS_API_KEY).enqueue(
+                App.getBooksApi().getData("isbn:" + barcode, GOOGLE_BOOKS_API_KEY).enqueue(
                         new Callback<ApiModel>() {
                             @Override
                             public void onResponse(Call<ApiModel> call, Response<ApiModel> response) {
                                 if (response.body() != null) {
                                     VolumeInfo volumeInfo = response.body().getItems().get(0).getVolumeInfo();
-                                    edtAuthor.setText(volumeInfo.getAuthors().get(0));
+                                    if (volumeInfo.getAuthors() != null && !volumeInfo.getAuthors().isEmpty()) {
+                                        edtAuthor.setText(volumeInfo.getAuthors().get(0));
+                                    }
                                     edtDescription.setText(volumeInfo.getDescription());
                                     edtDate.setText(volumeInfo.getPublishedDate());
                                     edtName.setText(volumeInfo.getTitle());
                                     edtPublisher.setText(volumeInfo.getPublisher());
-                                    imageUrl = volumeInfo.getImageLinks().getSmallThumbnail();
-                                    Glide.with(activity)
-                                            .load(volumeInfo.getImageLinks().getSmallThumbnail())
-                                            .placeholder(R.drawable.bg_book_cover_gradient)
-                                            .into(ivCover);
-                                    ivCover.setBackground(null);
+                                    if (volumeInfo.getImageLinks() != null) {
+                                        imageUrl = volumeInfo.getImageLinks().getThumbnail();
+                                        Glide.with(activity)
+                                                .load(volumeInfo.getImageLinks().getThumbnail())
+                                                .placeholder(R.drawable.bg_book_cover_gradient)
+                                                .into(ivCover);
+
+                                        ivCover.setBackground(null);
+                                    }
                                 } else {
                                     Toast.makeText(AddBookActivity.this, "No data found", Toast.LENGTH_SHORT).show();
                                 }
