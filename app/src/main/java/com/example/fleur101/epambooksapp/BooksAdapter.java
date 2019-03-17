@@ -2,10 +2,12 @@ package com.example.fleur101.epambooksapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +33,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
     private Context mContext;
 
 
+
+
     BooksAdapter(List<Book> dataset, Context context) {
         mDataset = dataset;
         mContext = context;
@@ -54,6 +58,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
             authorNames = authorNames.concat(authors.get(i));
             authorNames+=", ";
         }
+//        id = book.getId();
 
         Date date = book.getPublish_date().toDate();
         Calendar cal = Calendar.getInstance();
@@ -83,12 +88,18 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
         notifyDataSetChanged();
     }
 
+
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
 
-    class BooksAdapterViewHolder extends RecyclerView.ViewHolder {
+//    public interface RecyclerViewClickListener {
+//
+//        void onClick(View view, int position);
+//    }
+
+    class BooksAdapterViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.image_book)
         ImageView bookImageView;
         @BindView(R.id.tv_title)
@@ -104,10 +115,24 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksAdapter
         @BindView(R.id.iv_info_icon)
         ImageView infoIcon;
 
+
         private BooksAdapterViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(view -> {
+                Context context = view.getContext();
+                int position = getAdapterPosition();
+                Intent intent = new Intent(context, BookActivity.class);
+                Book book = mDataset.get(position);
+                String bookId =  book.getId();
+                intent.putExtra("book_id",bookId);
+                context.startActivities(new Intent[]{intent});
+            });
         }
+
+
+
+
     }
 
 

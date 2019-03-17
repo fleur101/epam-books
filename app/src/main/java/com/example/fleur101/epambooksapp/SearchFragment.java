@@ -21,11 +21,11 @@ import butterknife.ButterKnife;
 public class SearchFragment extends BaseFragment {
 
     public static final String TAG = "SEARCH_FRAGMENT_TAG";
+    @BindView(R.id.rv_my_books)
+    RecyclerView recyclerView;
     private FirebaseFirestore db;
     private List<Book> mDataset;
     private BooksAdapter mAdapter;
-    @BindView(R.id.rv_my_books) RecyclerView recyclerView;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class SearchFragment extends BaseFragment {
         mAdapter = new BooksAdapter(mDataset, getContext());
         recyclerView.setAdapter(mAdapter);
 
+
         getData();
         return view;
     }
@@ -63,7 +64,7 @@ public class SearchFragment extends BaseFragment {
 //        getData();
     }
 
-    public void getData(){
+    public void getData() {
         db = FirebaseFirestore.getInstance();
         db.collection("books")
                 .get()
@@ -72,6 +73,7 @@ public class SearchFragment extends BaseFragment {
                         List<Book> data = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Book book = document.toObject(Book.class);
+                            book.setId(document.getId());
 //                            mDataset.add(book);
                             data.add(book);
                             Log.d(TAG, document.getId() + " => " + document.getData());
