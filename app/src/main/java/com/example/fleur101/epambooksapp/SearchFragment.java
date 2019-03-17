@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -25,6 +27,8 @@ public class SearchFragment extends BaseFragment {
     private List<Book> mDataset;
     private BooksAdapter mAdapter;
     @BindView(R.id.rv_my_books) RecyclerView recyclerView;
+    @BindView(R.id.et_query) TextInputEditText queryHolder;
+    @BindView(R.id.iv_search) ImageView searchButton;
 
 
     @Override
@@ -52,7 +56,9 @@ public class SearchFragment extends BaseFragment {
         mAdapter = new BooksAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
 
-        getData();
+        searchButton.setOnClickListener(view1 -> getData(queryHolder.getText().toString()));
+
+        getData("");
         return view;
     }
 
@@ -60,12 +66,12 @@ public class SearchFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        getData();
+        getData("");
     }
 
-    public void getData(){
+    public void getData(String query) {
         db = FirebaseFirestore.getInstance();
-        db.collection("books")
+        db.collection("books").orderBy("title").startAt(query).endAt(query + "\\uf8ff")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
