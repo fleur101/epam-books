@@ -17,7 +17,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.fleur101.epambooksapp.Utils.GOOGLE_BOOKS_API_KEY;
+import android.widget.ImageView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -37,6 +39,8 @@ public class SearchFragment extends BaseFragment {
     private List<Book> mDataset;
     private BooksAdapter mAdapter;
     @BindView(R.id.rv_my_books) RecyclerView recyclerView;
+    @BindView(R.id.et_query) TextInputEditText queryHolder;
+    @BindView(R.id.iv_search) ImageView searchButton;
 
 
     @Override
@@ -64,7 +68,9 @@ public class SearchFragment extends BaseFragment {
         mAdapter = new BooksAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
 
-        getData();
+        searchButton.setOnClickListener(view1 -> getData(queryHolder.getText().toString()));
+
+        getData("");
         return view;
     }
 
@@ -72,12 +78,12 @@ public class SearchFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        getData();
+        getData("");
     }
 
-    public void getData(){
+    public void getData(String query) {
         db = FirebaseFirestore.getInstance();
-        db.collection("books")
+        db.collection("books").orderBy("title").startAt(query).endAt(query + "\\uf8ff")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -96,12 +102,6 @@ public class SearchFragment extends BaseFragment {
                     }
                 });
     }
-
-
-//    public void setText(String text){
-//        TextView t = (TextView)getView().findViewById(R.id.api_resp);
-//        t.setText(text);
-//    }
 
 
 }
