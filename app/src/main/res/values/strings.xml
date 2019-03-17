@@ -38,6 +38,7 @@
     <string name="name">Имя</string>
     <string name="author">Автор</string>
     <string name="publisher">Издатель</string>
-    <string name="publish_date">Дата издания</string>
+    <string name="publish_date">Дата издания (год)</string>
     <string name="description">Описание</string>
+    <string name="isbn">ISBN</string>
 </resources>

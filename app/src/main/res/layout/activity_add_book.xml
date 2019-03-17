@@ -67,10 +67,27 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_author"
+                android:id="@+id/til_isbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/til_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_isbn"
+                    style="@style/AddBookEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/isbn"
+                    android:inputType="textCapSentences"
+                    tools:text="asdad" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/til_isbn">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_author"
