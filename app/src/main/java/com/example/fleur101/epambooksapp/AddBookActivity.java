@@ -1,9 +1,17 @@
 package com.example.fleur101.epambooksapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.fleur101.epambooksapp.ApiModel.ApiModel;
+import com.example.fleur101.epambooksapp.ApiModel.VolumeInfo;
+import com.example.fleur101.epambooksapp.Barcode.ScannerAcitivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +26,11 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.fleur101.epambooksapp.Utils.GOOGLE_BOOKS_API_KEY;
 
 /**
  * Created by Assylkhanov Aslan on 17.03.2019.
@@ -38,12 +50,12 @@ public class AddBookActivity extends BaseActivity {
     TextInputEditText edtDate;
     @BindView(R.id.edt_description)
     TextInputEditText edtDescription;
-    @BindView(R.id.edt_isbn)
-    TextInputEditText edtIsbn;
     @BindView(R.id.btn_cancel)
     TextView btnCancel;
     @BindView(R.id.btn_confirm)
     TextView btnConfirm;
+    @BindView(R.id.edt_isbn)
+    TextInputEditText edtIsbn;
     //endregion
 
     private String isbn;
@@ -54,14 +66,11 @@ public class AddBookActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book);
         ButterKnife.bind(this);
-
-//        TODO. Mirka: For image load use
-//        Glide.with(this)
-//                .load("Your image url here")
-//                .placeholder(R.drawable.bg_book_cover_gradient)
-//                .into(ivCover);
+        ImageButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view1 -> startActivityForResult(new Intent(this, ScannerAcitivity.class), 1));
 
         btnConfirm.setOnClickListener(v -> checkIfBookExists());
+        btnCancel.setOnClickListener(view -> onBackPressed());
     }
 
     private void checkIfBookExists() {
@@ -85,21 +94,24 @@ public class AddBookActivity extends BaseActivity {
         Map<String, Object> book = new HashMap<>();
         List<String> authors = new ArrayList<>();
         authors.add(edtAuthor.getText().toString());
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, Integer.parseInt(edtDate.getText().toString()));
+        Timestamp timestamp = new Timestamp(cal.getTime());
+
         book.put("authors", authors);
         book.put("description", edtDescription.getText().toString());
         book.put("imgUrl", imageUrl);
         book.put("isbn", isbn);
         book.put("publisher", edtPublisher.getText().toString());
         book.put("title", edtName.getText().toString());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, Integer.parseInt(edtDate.getText().toString()));
-        Timestamp timestamp = new Timestamp(cal.getTime());
+        book.put("publish_date", timestamp);
         FirebaseFirestore.getInstance().collection("books")
                 .add(book)
                 .addOnCompleteListener(task -> {
-                   if (task.isSuccessful()) {
-                       createBookInstance(task.getResult().getId());
-                   }
+                    if (task.isSuccessful()) {
+                        createBookInstance(task.getResult().getId());
+                    }
                 });
     }
 
@@ -112,8 +124,56 @@ public class AddBookActivity extends BaseActivity {
                 .add(book)
                 .addOnCompleteListener(task -> {
                     showLoader(false);
-                    Timber.e("Success = %b", task.isSuccessful());
+                    onBackPressed();
                 });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Activity activity = this;
+        if (requestCode == 1) {
+
+            if (resultCode == RESULT_OK) {
+                String barcode = data.getStringExtra("barcode");
+                edtIsbn.setText(barcode);
+
+                App.getBooksApi().getData("isbn:" + "9780071636087", GOOGLE_BOOKS_API_KEY).enqueue(
+                        new Callback<ApiModel>() {
+                            @Override
+                            public void onResponse(Call<ApiModel> call, Response<ApiModel> response) {
+                                if (response.body() != null) {
+                                    VolumeInfo volumeInfo = response.body().getItems().get(0).getVolumeInfo();
+                                    edtAuthor.setText(volumeInfo.getAuthors().get(0));
+                                    edtDescription.setText(volumeInfo.getDescription());
+                                    edtDate.setText(volumeInfo.getPublishedDate());
+                                    edtName.setText(volumeInfo.getTitle());
+                                    edtPublisher.setText(volumeInfo.getPublisher());
+                                    imageUrl = volumeInfo.getImageLinks().getSmallThumbnail();
+                                    Glide.with(activity)
+                                            .load(volumeInfo.getImageLinks().getSmallThumbnail())
+                                            .placeholder(R.drawable.bg_book_cover_gradient)
+                                            .into(ivCover);
+                                    ivCover.setBackground(null);
+                                } else {
+                                    Toast.makeText(AddBookActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ApiModel> call, Throwable t) {
+                                Toast.makeText(AddBookActivity.this, "you failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+                //your code
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                // Write your code if there's no result
+                Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 }

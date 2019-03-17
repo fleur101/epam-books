@@ -155,6 +155,7 @@ public class LoginActivity extends BaseActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 Timber.e("Google sign in failed", e);
+                e.printStackTrace();
             }
         }
     }
