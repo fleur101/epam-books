@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">epambooksApp</string>
-    <string name="search">Search</string>
-    <string name="my_books">My books</string>
-    <string name="my_requests">My requests</string>
-    <string name="settings">Settings</string>
-    <string name="logout">Logout</string>
+    <string name="app_name">Epam Reads</string>
+    <string name="search">Поиск книг</string>
+    <string name="my_books">Моя книжная полка</string>
+    <string name="my_requests">Одолженные книги</string>
+    <string name="settings">Настройки</string>
+    <string name="logout">Выйти</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

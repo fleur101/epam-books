@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             actionbar.setDisplayHomeAsUpEnabled(true);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
+        toolbar.setTitle("epam reads");
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
